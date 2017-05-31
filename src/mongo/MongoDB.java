@@ -1,5 +1,6 @@
 package mongo;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
@@ -46,7 +47,7 @@ public class MongoDB {
 
     // Actualizamos todos los datos del usuario menos el correo electronico    
     public void updateContacto(Contacto ct){
-        coleccion.updateOne(eq(Contacto.KEYCORREO, ct.getCorreo()), parseContactToDocument(ct));
+        coleccion.updateOne(eq(Contacto.KEYCORREO,ct.getCorreo()), new Document("$set", parseContactToDocument(ct)));
     }
     
     // Eliminamos un contacto especifico a partir del correo electronico

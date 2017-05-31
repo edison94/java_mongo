@@ -1,5 +1,7 @@
 package mongo;
 
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 import static java.lang.Thread.sleep;
@@ -133,7 +135,26 @@ public class Mongo {
     // Guardaremos en la ruta que nos indique el usuario un fichero con los 
     // datos de todos los contactos
     private static void extractContactos() {
+        ArrayList<Contacto> contactos = conn.getContactos();
+        FileWriter fichero = null;
+        PrintWriter pw = null;
+        try{
+            fichero = new FileWriter("contactos.txt");
+            pw = new PrintWriter(fichero);
 
+            for (Contacto c : contactos)
+                pw.println(c);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+           try {
+           if (null != fichero)
+              fichero.close();
+           } catch (Exception e2) {
+              e2.printStackTrace();
+           }
+        }
     }
     
     // Segun la opcion indicada por el usuario ejecutaremos un metodo o otro
