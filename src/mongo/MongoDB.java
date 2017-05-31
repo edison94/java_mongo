@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import org.bson.Document;
 
 public class MongoDB {
+    
     public static final String HOST = "192.168.2.155";
     public static final String DATABASE = "agenda";
     public static final String COLLECTION = "contactos";
@@ -17,12 +18,15 @@ public class MongoDB {
     private MongoDatabase db;
     private MongoCollection<Document> coleccion;
 
+    // Configuramos la base de datos indicandole la ip, el nombre de la base de 
+    // datos y el nombre de la coleccion
     public MongoDB() {
         cliente = new MongoClient(HOST);
         db = cliente.getDatabase(DATABASE);
         coleccion = db.getCollection(COLLECTION);
     }
     
+    // Obtenemos todos los contactos
     public ArrayList<Contacto> getContactos(){
         ArrayList<Contacto> contactos = new ArrayList<>();
         MongoCursor <Document> cursor = coleccion.find().iterator();
@@ -34,23 +38,28 @@ public class MongoDB {
         return contactos;
     }
     
+    // Obtenemos un contacto especifico a partir del correo electronico
     public Contacto getContacto(String correo){
         Document doc = coleccion.find(eq(Contacto.KEYCORREO, correo)).first();
         return parseDocumentToContact(doc);
     }
-    
+
+    // Actualizamos todos los datos del usuario menos el correo electronico    
     public void updateContacto(Contacto ct){
         coleccion.updateOne(eq(Contacto.KEYCORREO, ct.getCorreo()), parseContactToDocument(ct));
     }
     
+    // Eliminamos un contacto especifico a partir del correo electronico
     public void deleteContacto(String correo){
         coleccion.deleteOne(eq(Contacto.KEYCORREO, correo));
     }
     
+    // Insertamos un nuevo contacto
     public void insertContacto(Contacto ct){
         coleccion.insertOne(parseContactToDocument(ct));
     }
     
+    // Desconectamos la base de datos
     public void desconectar(){
         cliente.close();
     }

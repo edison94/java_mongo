@@ -56,7 +56,7 @@ public class Mongo {
         } 
     }
     
-        // Visualizamos los contactos
+    // Visualizamos los contactos con mas edad
     private static void printContactosMasEdad(){
         ArrayList<Contacto> cts = conn.getContactosMasEdad();
         
@@ -189,6 +189,7 @@ public class Mongo {
         do{
             printMenu();
         }while(setAction(SC.nextInt()));
+        conn.desconectar();
     }
 
 }
