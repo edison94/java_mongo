@@ -47,10 +47,8 @@ public class MongoDB {
         coleccion.deleteOne(eq(Contacto.KEYCORREO, correo));
     }
     
-    public boolean insertContacto(Contacto ct){
-        if(getContacto(ct.getCorreo()).getNombre() != null) return false;
+    public void insertContacto(Contacto ct){
         coleccion.insertOne(parseContactToDocument(ct));
-        return true;
     }
     
     public void desconectar(){

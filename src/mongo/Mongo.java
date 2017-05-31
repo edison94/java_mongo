@@ -21,12 +21,23 @@ public class Mongo {
         System.out.println("0 Finalizar"); 
     }
     
-    // Pedimos el usuario el correo electronico del contacto
+    // Pedimos al usuario el correo electronico del contacto
     private static String writeCorreo(){
-        System.out.println("Datos del contacto");
         System.out.print("Indique el correo electronico: ");
         return SC.next();
     }
+    
+     // Pedimos al usuario los demas datos del contacto
+    private static Contacto writeDatosRestantes(Contacto ct){
+        System.out.print("Indique el nombre: ");
+        ct.setNombre(SC.next());
+        System.out.print("Indique los apellidos: ");
+        ct.setApellidos(SC.next());
+        System.out.print("Indique el telefono: ");
+        ct.setTelefono(SC.nextDouble());
+        return ct;
+    }
+    
     
     // Visualizamos los contactos
     private static void printContactos(){
@@ -52,19 +63,10 @@ public class Mongo {
     
     // Preguntamos los datos para insertar un nuevo contacto
     private static void insertContacto() {
-        Contacto ct = new Contacto();
-        System.out.println("Datos del contacto");
-        System.out.print("Indique el correo electronico: ");
-        ct.setCorreo(SC.next());
-        System.out.print("Indique el nombre: ");
-        ct.setNombre(SC.next());
-        System.out.print("Indique los apellidos: ");
-        ct.setApellidos(SC.next());
-        System.out.print("Indique el telefono: ");
-        ct.setTelefono(SC.nextDouble());
+        Contacto ct = conn.getContacto(writeCorreo());
         
-        // Comprobamos que se ha insertado correctamente
-        if (conn.insertContacto(ct)){
+        if (ct.getCorreo() != null){
+            conn.insertContacto(writeDatosRestantes(ct));
             System.out.println("Insertado correctamente.");
         } else {
             System.out.println("Error: Ya existe un usuario con este correo.");
@@ -76,13 +78,7 @@ public class Mongo {
         Contacto ct = conn.getContacto(writeCorreo());
         
         if (ct.getCorreo() != null){
-            System.out.print("Indique el nombre: ");
-            ct.setNombre(SC.next());
-            System.out.print("Indique los apellidos: ");
-            ct.setApellidos(SC.next());
-            System.out.print("Indique el telefono: ");
-            ct.setTelefono(SC.nextDouble());
-            conn.updateContacto(ct);
+            conn.updateContacto(writeDatosRestantes(ct));
             System.out.println("Se ha actualizado el contacto correctamente.");
         } else {
             System.out.println("Error: No existe un usuario con este correo.");
@@ -93,7 +89,7 @@ public class Mongo {
     private static void deleteContacto() {
         Contacto ct = conn.getContacto(writeCorreo());
         
-        if (ct.getCorreo() != null){;
+        if (ct.getCorreo() != null){
             conn.deleteContacto(ct.getCorreo());
             System.out.println("Se ha eliminado el contacto correctamente.");
         } else {
@@ -107,6 +103,7 @@ public class Mongo {
 
     }
     
+    // Segun la opcion indicada por el usuario ejecutaremos un metodo o otro
     private static boolean setAction(int action){
         switch(action){
             // Finalizamos el bucle para finalizar el programa
@@ -125,8 +122,8 @@ public class Mongo {
             case 3:
                 insertContacto(); break;
                 
-            // Preguntamos el correo del contacto que quiere modificar y 
-            // sus nuevos datos
+            // Preguntamos el correo del contacto que quiere modificar y sus
+            // nuevos datos
             case 4:
                 updateContacto(); break;
                 
