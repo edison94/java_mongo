@@ -35,11 +35,13 @@ public class Mongo {
         for(Contacto ct : cts){
             printContacto(ct);
         }
+        System.out.println("");
     }
     
     // Visualizamos el contacto con el correo que ha indicado el usuario
     private static void printContacto(){
         printContacto(conn.getContacto(writeCorreo()));
+        System.out.println("");
     }
     
     // Visualizamos el contacto con el correo que ha indicado el usuario
@@ -47,7 +49,7 @@ public class Mongo {
         System.out.println("Nombre: " + ct.getNombre());
         System.out.println("Apellidos: " + ct.getApellidos());
         System.out.println("Correo: " + ct.getCorreo());
-        System.out.println("Telefono: " + ct.getTelefono()+ "\n");
+        System.out.println("Telefono: " + ct.getTelefono() + "\n");
     }
     
     // Preguntamos los datos para insertar un nuevo contacto

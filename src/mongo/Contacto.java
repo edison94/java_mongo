@@ -1,13 +1,12 @@
 package mongo;
 
 public class Contacto {
-    public static final String KEYID = "_id";
+    
     public static final String KEYNOMBRE = "nombre";
     public static final String KEYAPELLIDOS = "apellidos";
     public static final String KEYTELEFONO = "telefono";
     public static final String KEYCORREO = "correo";
     
-    private String _id;
     private String nombre;
     private String apellidos;
     private double telefono;
@@ -54,14 +53,5 @@ public class Contacto {
     public void setCorreo(String correo) {
         this.correo = correo;
     }
-
-    public String getId() {
-        return _id;
-    }
-
-    public void setId(String _id) {
-        this._id = _id;
-    }
-    
     
 }

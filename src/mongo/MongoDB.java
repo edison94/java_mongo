@@ -41,11 +41,11 @@ public class MongoDB {
     }
     
     public void updateContacto(Contacto ct){
-        coleccion.updateOne(eq(Contacto.KEYID, ct.getId()), parseContactToDocument(ct));
+        coleccion.updateOne(eq(Contacto.KEYCORREO, ct.getCorreo()), parseContactToDocument(ct));
     }
     
     public void deleteContacto(Contacto ct){
-        coleccion.deleteOne(eq(Contacto.KEYID,ct.getId()));
+        coleccion.deleteOne(eq(Contacto.KEYCORREO,ct.getCorreo()));
     }
     
     public void insertContacto(Contacto ct){
@@ -67,7 +67,6 @@ public class MongoDB {
     
     private Contacto parseDocumentToContact(Document doc){
         Contacto contacto = new Contacto();
-        contacto.setId(doc.getString(Contacto.KEYID));
         contacto.setNombre(doc.getString(Contacto.KEYNOMBRE));
         contacto.setApellidos(doc.getString(Contacto.KEYAPELLIDOS));
         contacto.setCorreo(doc.getString(Contacto.KEYCORREO));
