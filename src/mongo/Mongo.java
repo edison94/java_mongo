@@ -1,8 +1,8 @@
 package mongo;
 
-import static java.lang.Thread.sleep;
 import java.util.ArrayList;
 import java.util.Scanner;
+import static java.lang.Thread.sleep;
 
 public class Mongo {
     
@@ -25,23 +25,21 @@ public class Mongo {
     private static String writeCorreo(){
         System.out.println("Datos del contacto");
         System.out.print("Indique el correo electronico: ");
-        return SC.nextLine();
+        return SC.next();
     }
     
     // Visualizamos los contactos
     private static void printContactos(){
         ArrayList<Contacto> cts = conn.getContactos();
-        System.out.println("Lista de contactos:");
+        if(!cts.isEmpty()) System.out.println("Lista de contactos:");
         for(Contacto ct : cts){
             printContacto(ct);
         }
-        System.out.println("");
     }
     
     // Visualizamos el contacto con el correo que ha indicado el usuario
     private static void printContacto(){
         printContacto(conn.getContacto(writeCorreo()));
-        System.out.println("");
     }
     
     // Visualizamos el contacto con el correo que ha indicado el usuario
@@ -56,25 +54,51 @@ public class Mongo {
     private static void insertContacto() {
         Contacto ct = new Contacto();
         System.out.println("Datos del contacto");
+        System.out.print("Indique el correo electronico: ");
+        ct.setCorreo(SC.next());
         System.out.print("Indique el nombre: ");
-        ct.setNombre(SC.nextLine());
+        ct.setNombre(SC.next());
         System.out.print("Indique los apellidos: ");
-        ct.setApellidos(SC.nextLine());
+        ct.setApellidos(SC.next());
         System.out.print("Indique el telefono: ");
         ct.setTelefono(SC.nextDouble());
-        System.out.print("Indique el correo electronico: ");
-        ct.setCorreo(SC.nextLine());
-        conn.insertContacto(ct);
+        
+        // Comprobamos que se ha insertado correctamente
+        if (conn.insertContacto(ct)){
+            System.out.println("Insertado correctamente.");
+        } else {
+            System.out.println("Error: Ya existe un usuario con este correo.");
+        }
     }
 
     // Preguntamos el correo del contacto que quiere modificar y sus nuevos datos
     private static void updateContacto() {
-        writeCorreo();
+        Contacto ct = conn.getContacto(writeCorreo());
+        
+        if (ct.getCorreo() != null){
+            System.out.print("Indique el nombre: ");
+            ct.setNombre(SC.next());
+            System.out.print("Indique los apellidos: ");
+            ct.setApellidos(SC.next());
+            System.out.print("Indique el telefono: ");
+            ct.setTelefono(SC.nextDouble());
+            conn.updateContacto(ct);
+            System.out.println("Se ha actualizado el contacto correctamente.");
+        } else {
+            System.out.println("Error: No existe un usuario con este correo.");
+        }
     }
 
     // Preguntamos el correo del contacto que quiere eliminar
     private static void deleteContacto() {
-        writeCorreo();
+        Contacto ct = conn.getContacto(writeCorreo());
+        
+        if (ct.getCorreo() != null){;
+            conn.deleteContacto(ct.getCorreo());
+            System.out.println("Se ha eliminado el contacto correctamente.");
+        } else {
+            System.out.println("Error: No existe un usuario con este correo.");
+        }
     }
     
     // Guardaremos en la ruta que nos indique el usuario un fichero con los 
@@ -91,41 +115,37 @@ public class Mongo {
             
             // Visualizamos los contactos
             case 1:
-                printContactos();
-                return true;
+                printContactos(); break;
                 
            // Visualizamos el contacto con el correo que ha indicado el usuario
             case 2:
-                printContacto();
-                return true;
+                printContacto(); break;
                 
             // Preguntamos los datos para insertar un nuevo contacto
             case 3:
-                insertContacto();
-                return true;
+                insertContacto(); break;
                 
             // Preguntamos el correo del contacto que quiere modificar y 
             // sus nuevos datos
             case 4:
-                updateContacto();
-                return true;
+                updateContacto(); break;
                 
             // Preguntamos el correo del contacto que quiere eliminar
             case 5:
-                deleteContacto();
-                return true;
+                deleteContacto(); break;
                
             // Guardaremos en la ruta que nos indique el usuario un fichero con
             // los datos de todos los contactos
             case 6:
-                extractContactos();
-                return true;
+                extractContactos(); break;
            
             // Mandamos un mensaje de error
             default:
                 System.out.println("Opcion incorrecta.");
-                return true;
         }
+        
+        System.out.println("");
+        return true;
     }
     
     // Inicializamos la base de datos y mostramos la interfaz en bucle

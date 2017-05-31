@@ -35,7 +35,6 @@ public class MongoDB {
     }
     
     public Contacto getContacto(String correo){
-        Contacto contacto = new Contacto();
         Document doc = coleccion.find(eq(Contacto.KEYCORREO, correo)).first();
         return parseDocumentToContact(doc);
     }
@@ -44,12 +43,14 @@ public class MongoDB {
         coleccion.updateOne(eq(Contacto.KEYCORREO, ct.getCorreo()), parseContactToDocument(ct));
     }
     
-    public void deleteContacto(Contacto ct){
-        coleccion.deleteOne(eq(Contacto.KEYCORREO,ct.getCorreo()));
+    public void deleteContacto(String correo){
+        coleccion.deleteOne(eq(Contacto.KEYCORREO, correo));
     }
     
-    public void insertContacto(Contacto ct){
+    public boolean insertContacto(Contacto ct){
+        if(getContacto(ct.getCorreo()).getNombre() != null) return false;
         coleccion.insertOne(parseContactToDocument(ct));
+        return true;
     }
     
     public void desconectar(){
