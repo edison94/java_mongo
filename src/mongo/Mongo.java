@@ -12,7 +12,7 @@ import org.bson.Document;
 public class Mongo {
 
     public static void main(String[] args) {
-        MongoClient cliente = new MongoClient("192.168.2.155");
+        MongoClient cliente = new MongoClient("192.168.56.12");
         MongoDatabase db = cliente.getDatabase("mis datos");
         MongoCollection<Document> coleccion = db.getCollection("personas");
 
