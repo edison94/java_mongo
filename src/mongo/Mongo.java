@@ -13,11 +13,12 @@ public class Mongo {
     private static void printMenu(){
         System.out.println("Selecciona el numero de la accion que quiere realizar:");
         System.out.println("1 Visualizar contactos");
-        System.out.println("2 Visualizar un contacto");
-        System.out.println("3 Insertar un contacto");
-        System.out.println("4 Modificar un contacto");
-        System.out.println("5 Eliminar un contacto");
-        System.out.println("6 Tranpasar datos del los contactos a un fichero");
+        System.out.println("2 Visualizar contactos con mas edad");
+        System.out.println("3 Visualizar un contacto");
+        System.out.println("4 Insertar un contacto");
+        System.out.println("5 Modificar un contacto");
+        System.out.println("6 Eliminar un contacto");
+        System.out.println("7 Tranpasar datos del los contactos a un fichero");
         System.out.println("0 Finalizar"); 
     }
     
@@ -47,6 +48,20 @@ public class Mongo {
         
         if(!cts.isEmpty()){
             System.out.println("Lista de contactos:");     
+            for(Contacto ct : cts){
+                printContacto(ct);
+            }
+        }else{
+            System.out.println("Actualmente no hay conctacos insertados.");
+        } 
+    }
+    
+        // Visualizamos los contactos
+    private static void printContactosMasEdad(){
+        ArrayList<Contacto> cts = conn.getContactosMasEdad();
+        
+        if(!cts.isEmpty()){
+            System.out.println("Lista de contactos con mas edad:");     
             for(Contacto ct : cts){
                 printContacto(ct);
             }
@@ -131,27 +146,31 @@ public class Mongo {
             // Visualizamos los contactos
             case 1:
                 printContactos(); break;
-                
-           // Visualizamos el contacto con el correo que ha indicado el usuario
+            
+            // Visualizamos los contactos con mas edad
             case 2:
+                printContactosMasEdad(); break;     
+                
+            // Visualizamos el contacto con el correo que ha indicado el usuario
+            case 3:
                 printContacto(); break;
                 
             // Preguntamos los datos para insertar un nuevo contacto
-            case 3:
+            case 4:
                 insertContacto(); break;
                 
             // Preguntamos el correo del contacto que quiere modificar y sus
             // nuevos datos
-            case 4:
+            case 5:
                 updateContacto(); break;
                 
             // Preguntamos el correo del contacto que quiere eliminar
-            case 5:
+            case 6:
                 deleteContacto(); break;
                
             // Guardaremos en la ruta que nos indique el usuario un fichero con
             // los datos de todos los contactos
-            case 6:
+            case 7:
                 extractContactos(); break;
            
             // Mandamos un mensaje de error
