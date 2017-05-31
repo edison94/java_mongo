@@ -34,7 +34,9 @@ public class Mongo {
         System.out.print("Indique los apellidos: ");
         ct.setApellidos(SC.next());
         System.out.print("Indique el telefono: ");
-        ct.setTelefono(SC.nextDouble());
+        ct.setTelefono(SC.next());
+        System.out.print("Indique la edad: ");
+        ct.setEdad(SC.nextInt());
         return ct;
     }
     
@@ -42,15 +44,26 @@ public class Mongo {
     // Visualizamos los contactos
     private static void printContactos(){
         ArrayList<Contacto> cts = conn.getContactos();
-        if(!cts.isEmpty()) System.out.println("Lista de contactos:");
-        for(Contacto ct : cts){
-            printContacto(ct);
-        }
+        
+        if(!cts.isEmpty()){
+            System.out.println("Lista de contactos:");     
+            for(Contacto ct : cts){
+                printContacto(ct);
+            }
+        }else{
+            System.out.println("Actualmente no hay conctacos insertados.");
+        } 
     }
     
     // Visualizamos el contacto con el correo que ha indicado el usuario
     private static void printContacto(){
-        printContacto(conn.getContacto(writeCorreo()));
+        Contacto ct = conn.getContacto(writeCorreo());
+        
+        if (ct.getCorreo() != null){
+            printContacto();
+        } else {
+            System.out.println("Error: No existe un usuario con este correo.");
+        }
     }
     
     // Visualizamos el contacto con el correo que ha indicado el usuario
@@ -58,14 +71,17 @@ public class Mongo {
         System.out.println("Nombre: " + ct.getNombre());
         System.out.println("Apellidos: " + ct.getApellidos());
         System.out.println("Correo: " + ct.getCorreo());
-        System.out.println("Telefono: " + ct.getTelefono() + "\n");
+        System.out.println("Telefono: " + ct.getTelefono());
+        System.out.println("Edad: " + ct.getEdad() + "\n");
     }
     
     // Preguntamos los datos para insertar un nuevo contacto
     private static void insertContacto() {
-        Contacto ct = conn.getContacto(writeCorreo());
+        String correo = writeCorreo();
+        Contacto ct = conn.getContacto(correo);
         
-        if (ct.getCorreo() != null){
+        if (ct.getCorreo() == null){
+            ct.setCorreo(correo);
             conn.insertContacto(writeDatosRestantes(ct));
             System.out.println("Insertado correctamente.");
         } else {
@@ -75,9 +91,11 @@ public class Mongo {
 
     // Preguntamos el correo del contacto que quiere modificar y sus nuevos datos
     private static void updateContacto() {
-        Contacto ct = conn.getContacto(writeCorreo());
+        String correo = writeCorreo();
+        Contacto ct = conn.getContacto(correo);
         
         if (ct.getCorreo() != null){
+            ct.setCorreo(correo);
             conn.updateContacto(writeDatosRestantes(ct));
             System.out.println("Se ha actualizado el contacto correctamente.");
         } else {

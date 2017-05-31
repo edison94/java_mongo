@@ -6,20 +6,23 @@ public class Contacto {
     public static final String KEYAPELLIDOS = "apellidos";
     public static final String KEYTELEFONO = "telefono";
     public static final String KEYCORREO = "correo";
+    public static final String KEYEDAD = "edad";
     
     private String nombre;
     private String apellidos;
-    private double telefono;
+    private String telefono;
     private String correo;
+    private int edad;
 
     public Contacto(){ }
     
-    public Contacto(String nombre, String apellidos, double telefono, 
-            String correo) {
+    public Contacto(String nombre, String apellidos, String telefono, 
+            String correo, int edad) {
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.telefono = telefono;
         this.correo = correo;
+        this.edad = edad;
     }
     
     public String getNombre() {
@@ -38,11 +41,11 @@ public class Contacto {
         this.apellidos = apellidos;
     }
 
-    public double getTelefono() {
+    public String getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(double telefono) {
+    public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
 
@@ -53,5 +56,13 @@ public class Contacto {
     public void setCorreo(String correo) {
         this.correo = correo;
     }
-    
+
+    public int getEdad() {
+        return edad;
+    }
+
+    public void setEdad(int edad) {
+        this.edad = edad;
+    }
+        
 }

@@ -61,6 +61,7 @@ public class MongoDB {
         contact.put(Contacto.KEYAPELLIDOS, ct.getApellidos());
         contact.put(Contacto.KEYCORREO, ct.getCorreo());
         contact.put(Contacto.KEYTELEFONO, ct.getTelefono());
+        contact.put(Contacto.KEYEDAD, ct.getEdad());
         return contact;
     }
     
@@ -71,7 +72,8 @@ public class MongoDB {
         contacto.setNombre(doc.getString(Contacto.KEYNOMBRE));
         contacto.setApellidos(doc.getString(Contacto.KEYAPELLIDOS));
         contacto.setCorreo(doc.getString(Contacto.KEYCORREO));
-        contacto.setTelefono(doc.getDouble(Contacto.KEYTELEFONO));
+        contacto.setTelefono(doc.getString(Contacto.KEYTELEFONO));
+        contacto.setEdad(doc.getInteger(Contacto.KEYEDAD));
         return contacto;
     }
 }
