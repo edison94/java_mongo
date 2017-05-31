@@ -66,6 +66,8 @@ public class MongoDB {
     
     private Contacto parseDocumentToContact(Document doc){
         Contacto contacto = new Contacto();
+        if(doc == null) return contacto;
+        
         contacto.setNombre(doc.getString(Contacto.KEYNOMBRE));
         contacto.setApellidos(doc.getString(Contacto.KEYAPELLIDOS));
         contacto.setCorreo(doc.getString(Contacto.KEYCORREO));
