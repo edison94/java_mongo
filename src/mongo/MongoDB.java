@@ -19,7 +19,7 @@ public class MongoDB {
 
     public MongoDB() {
         cliente = new MongoClient(HOST);
-        cliente.getDatabase(DATABASE);
+        db = cliente.getDatabase(DATABASE);
         coleccion = db.getCollection(COLLECTION);
     }
     
