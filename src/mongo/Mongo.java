@@ -62,7 +62,7 @@ public class Mongo {
     private static void printContactosMasEdad(){
         Contacto ct = conn.getContactoMasEdad();
         
-        if(ct.getCorreo() == null){
+        if(ct.getCorreo() != null){
             printContacto(ct);
         }else{
             System.out.println("Actualmente no hay contactos insertados.");
@@ -71,10 +71,11 @@ public class Mongo {
     
     // Visualizamos el contacto con el correo que ha indicado el usuario
     private static void printContacto(){
-        Contacto ct = conn.getContacto(writeCorreo());
+        String correo = writeCorreo();
+        Contacto ct = conn.getContacto(correo);
         
         if (ct.getCorreo() != null){
-            printContacto();
+            printContacto(conn.getContacto(correo));
         } else {
             System.out.println("Error: No existe un usuario con este correo.");
         }

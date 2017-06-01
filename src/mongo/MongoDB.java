@@ -44,7 +44,8 @@ public class MongoDB {
     public Contacto getContactoMasEdad() {
         Contacto c = new Contacto();
         AggregateIterable<Document> output = coleccion.aggregate(Arrays.asList(
-                new Document("$sort", new Document("edad", -1)), new Document("$limit", 1)));
+                new Document("$sort", new Document("edad", -1)), 
+                new Document("$limit", 1)));
 
         for (Document dbObject : output) {
             c = parseDocumentToContact(dbObject);
@@ -60,7 +61,8 @@ public class MongoDB {
 
     // Actualizamos todos los datos del usuario menos el correo electronico    
     public void updateContacto(Contacto ct) {
-        coleccion.updateOne(eq(Contacto.KEYCORREO, ct.getCorreo()), new Document("$set", parseContactToDocument(ct)));
+        coleccion.updateOne(eq(Contacto.KEYCORREO, ct.getCorreo()), 
+                new Document("$set", parseContactToDocument(ct)));
     }
 
     // Eliminamos un contacto especifico a partir del correo electronico
@@ -78,8 +80,8 @@ public class MongoDB {
         cliente.close();
     }
     
-    //Obtenemos los datos de un contacto y creamos un objeto de tipo document
-    //y lo retornamos
+    // Obtenemos los datos de un contacto y creamos un objeto de tipo document
+    // y lo retornamos
     private Document parseContactToDocument(Contacto ct) {
         Document contact = new Document();
         contact.put(Contacto.KEYNOMBRE, ct.getNombre());
@@ -90,9 +92,8 @@ public class MongoDB {
         return contact;
     }
 
-    //Obtenemos los datos de un documento
-    //se lo ponemos a un objeto Contacto y lo retornamos
-    //si el documento es nulo retornamos el contacto vacio
+    // Obtenemos los datos de un documento se lo ponemos a un objeto Contacto
+    // y lo retornamos si el documento es nulo retornamos el contacto vacio
     private Contacto parseDocumentToContact(Document doc) {
         Contacto contacto = new Contacto();
         if (doc == null) {
