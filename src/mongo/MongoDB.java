@@ -1,6 +1,4 @@
 package mongo;
-
-import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.MongoCollection;
@@ -79,7 +77,9 @@ public class MongoDB {
     public void desconectar() {
         cliente.close();
     }
-
+    
+    //Obtenemos los datos de un contacto y creamos un objeto de tipo document
+    //y lo retornamos
     private Document parseContactToDocument(Contacto ct) {
         Document contact = new Document();
         contact.put(Contacto.KEYNOMBRE, ct.getNombre());
@@ -90,6 +90,9 @@ public class MongoDB {
         return contact;
     }
 
+    //Obtenemos los datos de un documento
+    //se lo ponemos a un objeto Contacto y lo retornamos
+    //si el documento es nulo retornamos el contacto vacio
     private Contacto parseDocumentToContact(Document doc) {
         Contacto contacto = new Contacto();
         if (doc == null) {
