@@ -2,11 +2,13 @@ package mongo;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
+import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import static com.mongodb.client.model.Filters.eq;
 import java.util.ArrayList;
+import java.util.Arrays;
 import org.bson.Document;
 
 public class MongoDB {
@@ -85,5 +87,16 @@ public class MongoDB {
         contacto.setTelefono(doc.getString(Contacto.KEYTELEFONO));
         contacto.setEdad(doc.getInteger(Contacto.KEYEDAD));
         return contacto;
+    }
+
+    public Contacto getContactosMasEdad() {
+        Contacto c = new Contacto();
+        AggregateIterable<Document> output = coleccion.aggregate(Arrays.asList(
+            new Document("$sort", new Document("edad",-1)),new Document("$limit",1)));
+
+    for (Document dbObject : output){
+        c = parseDocumentToContact(dbObject);
+    }
+        return c;
     }
 }

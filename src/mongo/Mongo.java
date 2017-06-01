@@ -60,16 +60,8 @@ public class Mongo {
     
     // Visualizamos los contactos con mas edad
     private static void printContactosMasEdad(){
-        ArrayList<Contacto> cts = conn.getContactosMasEdad();
-        
-        if(!cts.isEmpty()){
-            System.out.println("Lista de contactos con mas edad:");     
-            for(Contacto ct : cts){
-                printContacto(ct);
-            }
-        }else{
-            System.out.println("Actualmente no hay conctacos insertados.");
-        } 
+        Contacto cts = conn.getContactosMasEdad();
+        printContacto(cts);
     }
     
     // Visualizamos el contacto con el correo que ha indicado el usuario

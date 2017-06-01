@@ -64,5 +64,9 @@ public class Contacto {
     public void setEdad(int edad) {
         this.edad = edad;
     }
-        
+
+    @Override
+    public String toString() {
+        return nombre + ", " + apellidos + ", " + telefono + ", " + correo + ", " + edad;
+    }
 }
